@@ -1,0 +1,6 @@
+# Again, we bind to all interfaces of the container only here
+bind-addr: '0.0.0.0:8080'
+
+# As we have vouch taking care of authentication, we can skip it here
+auth: none
+user-data-dir: /user-data
