@@ -12,7 +12,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # Add in your domains here
-domains=(example.com auth.example.com ide.example.com)
+domains=(example.com vouch.example.com ide.example.com)
 rsa_key_size=4096
 data_path="./certbot"
 
