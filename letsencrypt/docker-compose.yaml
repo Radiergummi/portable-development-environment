@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+    front-proxy:
+        image: 'nginx:latest'
+        restart: always
+        volumes:
+            - './nginx.conf:/etc/nginx/nginx.conf'
+            - './certbot/conf:/etc/letsencrypt'
+            - './certbot/www:/var/www/certbot'
+        ports:
+            - 80
+            - 443
+        command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+    certbot:
+        image: certbot/certbot
+        restart: unless-stopped
+        volumes:
+          - ./certbot/conf:/etc/letsencrypt
+          - ./certbot/www:/var/www/certbot
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+    auth-proxy:
+        image: 'voucher/vouch-proxy:latest'
+        restart: always
+        environment:
+            VOUCH_CONFIG: '/vouch.yaml'
+        volumes:
+            - './vouch.yaml:/vouch.yaml'
+        expose:
+            - 8080
+
+    ide:
+        build: .
+        restart: always
+        expose:
+            - 8080
+        volumes:
+            - './code-server.yaml:/code-server.yaml'
+            - './user-home:/user-home'
+            - './user-data:/user-data'
+            - './projects:/projects'
