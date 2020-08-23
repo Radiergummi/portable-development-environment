@@ -1,0 +1,32 @@
+vouch:
+    logLevel: info
+    testing: false
+
+    # We want to listen to all interfaces, as we're in a Docker
+    # context. This will not expose vouch directly.
+    listen: '0.0.0.0'
+    port: 8080
+
+    domains:
+        - vouch.example.com
+        - ide.example.com
+        - example.com
+
+    # Make sure to point the cookie domain to your domain name.
+    # It must be shared by the auth domain and the app domain.
+    cookie:
+        domain: example.com
+
+    # Approve user account names here as necessary. Vouch has
+    # more options to configure this, take a look at its docs.
+    whiteList:
+        - your_user_name
+        - you@example.com
+
+oauth:
+    provider: github
+    client_id: your_client_id
+    client_secret: your_client_secret
+    callback_url: 'https://vouch.example.com/auth'
+    scopes:
+        - user
