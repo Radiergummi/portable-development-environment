@@ -24,7 +24,7 @@ services:
         expose:
             - 8080
         volumes:
-            - './config.yaml:/config.yaml'
+            - './code-server.yaml:/code-server.yaml'
             - './user-home:/user-home'
             - './user-data:/user-data'
             - './projects:/projects'
